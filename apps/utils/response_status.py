@@ -8,8 +8,15 @@ class ResponseStatus(Enum):
     状态类型格式形如:
     Status_Name = (code: int, message: str)
     """
+    # Debug
+    DEBUG = (10000, 'Debug')
+
     # 成功
     OK = (20000, '成功')
 
     # 意外错误
     UNEXPECTED_ERROR = (50000, '意外错误')
+
+    # 正常错误
+    REQUEST_METHOD_ERROR = (40000, '请求方法错误')
+    JSON_DECODE_ERROR = (40001, 'JSON 解析错误')

@@ -1,4 +1,4 @@
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 
 from apps.utils.decorator import RequiredMethod, RequiredParameters
 from apps.utils.response_status import ResponseStatus
@@ -56,6 +56,35 @@ def register(request):
                                         email=email
                                         )
     user_info.save()
+
+    request.status = ResponseStatus.OK
+    return process_response(request)
+
+
+@RequiredMethod('POST')
+@RequiredParameters({'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
+                     'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
+                     })
+def login(request):
+    # 经过处理的 JSON 数据
+    json_data = request.json_data
+
+    username = json_data['username']
+    password = json_data['password']
+
+    # 用户 user 存在性验证
+    user = account_models.User.objects.filter(username=username).first()
+    if not user:
+        request.status = ResponseStatus.USERNAME_NOT_EXISTED_ERROR
+        return process_response(request)
+
+    # 密码 password 验证
+    if check_password(password, user.password) is False:
+        request.status = ResponseStatus.PASSWORD_NOT_MATCH_ERROR
+        return process_response(request)
+
+    # 设置登陆状态
+    request.session['username'] = username
 
     request.status = ResponseStatus.OK
     return process_response(request)

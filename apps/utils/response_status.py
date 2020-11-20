@@ -38,3 +38,5 @@ class ResponseStatus(Enum):
 
     USERNAME_EXISTED_ERROR = (43001, '用户名已存在')
     EMAIL_EXISTED_ERROR = (43002, '邮箱已存在')
+    USERNAME_NOT_EXISTED_ERROR = (43003, '用户名不存在')
+    PASSWORD_NOT_MATCH_ERROR = (43004, '密码错误')

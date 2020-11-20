@@ -47,14 +47,14 @@ def RequiredParameters(parameters: Dict[str, ResponseStatus]):
         @wraps(func)
         def wrapper(request):
             # JSON 解析
-            try:
-                json_data = json.loads(request.body)
-                request.json_data = json_data
-            except json.JSONDecodeError:
-                json_data = {}
-            if not json_data:
-                request.status = ResponseStatus.JSON_DECODE_ERROR
-                return process_response(request)
+            if not hasattr(request, 'json_data') or not isinstance(request.json_data, dict):
+                try:
+                    request.json_data = json.loads(request.body)
+                except json.JSONDecodeError:
+                    request.json_data = None
+                if request.json_data is None:
+                    request.status = ResponseStatus.JSON_DECODE_ERROR
+                    return process_response(request)
 
             # 参数存在性判断
             for param in parameters:

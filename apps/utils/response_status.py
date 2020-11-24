@@ -25,6 +25,7 @@ class ResponseStatus(Enum):
     USERNAME_REQUIRED_ERROR = (41002, '缺少用户名')
     PASSWORD_REQUIRED_ERROR = (41003, '缺少密码')
     EMAIL_REQUIRED_ERROR = (41004, '缺少邮箱')
+    NEW_PASSWORD_REQUIRED_ERROR = (41005, '缺少新密码')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')

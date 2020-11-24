@@ -115,3 +115,34 @@ def get_status(request):
         }
 
         return process_response(request, ResponseStatus.OK)
+
+
+@RequiredMethod('POST')
+@RequiredParameters({'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
+                     'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
+                     'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR})
+def change_password(request):
+    json_data = request.json_data
+
+    # 新密码 new_password 格式验证
+    new_password = json_data['new_password']
+    status = validate_password(new_password)
+    if status is not None:
+        return process_response(request, status)
+
+    # 用户 user 存在性验证
+    username = json_data['username']
+    user = account_models.User.objects.filter(username=username).first()
+    if not user:
+        return process_response(request, ResponseStatus.USERNAME_NOT_EXISTED_ERROR)
+
+    # 密码 password 验证
+    password = json_data['password']
+    if check_password(password, user.password) is False:
+        return process_response(request, ResponseStatus.PASSWORD_NOT_MATCH_ERROR)
+
+    # 修改密码 password
+    user.password = make_password(new_password)
+    user.save()
+
+    return process_response(request, ResponseStatus.OK)

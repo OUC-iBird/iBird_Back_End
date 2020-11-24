@@ -1,9 +1,9 @@
 import json
 
-from typing import Union, Dict
+from typing import Union
 from functools import wraps
 
-from apps.utils.response_status import ResponseStatus
+from apps.utils.response_status import ResponseStatus, RequiredErrorStatus
 from apps.utils.response_processor import process_response
 
 
@@ -34,11 +34,11 @@ def RequiredMethod(method: Union[str, list]):
     return decorator
 
 
-def RequiredParameters(parameters: Dict[str, ResponseStatus]):
+def RequiredParameters(*parameters):
     """
     参数存在性判断装饰器
 
-    :param parameters: 要求的参数与对应的错误
+    :param parameters: 要求的参数
     """
     def decorator(func):
         @wraps(func)
@@ -55,7 +55,7 @@ def RequiredParameters(parameters: Dict[str, ResponseStatus]):
             # 参数存在性判断
             for param in parameters:
                 if param not in request.json_data or not request.json_data[param]:
-                    return process_response(request, parameters[param])
+                    return process_response(request, RequiredErrorStatus.get_required_error_status(param))
 
             # 正常处理
             return func(request)

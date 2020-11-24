@@ -43,3 +43,23 @@ class ResponseStatus(Enum):
     PASSWORD_NOT_MATCH_ERROR = (43004, '密码错误')
 
     NOT_LOGIN = (44001, '未登陆')
+
+
+class RequiredErrorStatus:
+    """
+    要求参数缺失状态的映射类
+    """
+    __required_error_map = {
+        'captcha': ResponseStatus.CAPTCHA_ERROR_ERROR,
+        'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
+        'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
+        'email': ResponseStatus.EMAIL_REQUIRED_ERROR,
+        'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR
+    }
+
+    @classmethod
+    def get_required_error_status(cls, param):
+        if param in cls.__required_error_map:
+            return cls.__required_error_map[param]
+        else:
+            return ResponseStatus.UNEXPECTED_ERROR

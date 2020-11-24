@@ -8,10 +8,7 @@ from apps.account import models as account_models
 
 
 @RequiredMethod('POST')
-@RequiredParameters({'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
-                     'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
-                     'email': ResponseStatus.EMAIL_REQUIRED_ERROR
-                     })
+@RequiredParameters('username', 'password', 'email')
 def register(request):
     # 经过处理的 JSON 数据
     json_data = request.json_data
@@ -56,9 +53,7 @@ def register(request):
 
 
 @RequiredMethod('POST')
-@RequiredParameters({'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
-                     'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
-                     })
+@RequiredParameters('username', 'password')
 def login(request):
     # 经过处理的 JSON 数据
     json_data = request.json_data
@@ -118,9 +113,7 @@ def get_status(request):
 
 
 @RequiredMethod('POST')
-@RequiredParameters({'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
-                     'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
-                     'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR})
+@RequiredParameters('username', 'password', 'new_password')
 def change_password(request):
     json_data = request.json_data
 

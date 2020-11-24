@@ -83,7 +83,7 @@ def login(request):
 
 @RequiredMethod('POST')
 def logout(request):
-    if hasattr(request.session, 'username'):
+    if request.session.get('username') is not None:
         del request.session['username']
         status = ResponseStatus.OK
     else:

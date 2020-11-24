@@ -79,3 +79,14 @@ def login(request):
     request.session['username'] = username
 
     return process_response(request, ResponseStatus.OK)
+
+
+@RequiredMethod('POST')
+def logout(request):
+    if hasattr(request.session, 'username'):
+        del request.session['username']
+        status = ResponseStatus.OK
+    else:
+        status = ResponseStatus.NOT_LOGIN
+
+    return process_response(request, status)

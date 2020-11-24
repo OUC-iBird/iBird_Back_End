@@ -90,3 +90,28 @@ def logout(request):
         status = ResponseStatus.NOT_LOGIN
 
     return process_response(request, status)
+
+
+@RequiredMethod('GET')
+def get_status(request):
+    if request.session.get('username') is not None:
+        username = request.session.get('username')
+
+        user = account_models.User.objects.filter(username=username).first()
+        if not user:
+            return process_response(request, ResponseStatus.UNEXPECTED_ERROR)
+
+        request.data = {
+            'login': True,
+            'username': user.username,
+            'nickname': user.info.nickname,
+            'avatar': user.info.avatar.url,
+        }
+
+        return process_response(request, ResponseStatus.OK)
+    else:
+        request.data = {
+            'login': False,
+        }
+
+        return process_response(request, ResponseStatus.OK)

@@ -20,17 +20,14 @@ def RequiredMethod(method: Union[str, list]):
                 if request.method == method:
                     return func(request)
                 else:
-                    request.status = ResponseStatus.REQUEST_METHOD_ERROR
-                    return process_response(request)
+                    return process_response(request, ResponseStatus.REQUEST_METHOD_ERROR)
             elif isinstance(method, list):
                 if request.method in method:
                     return func(request)
                 else:
-                    request.status = ResponseStatus.REQUEST_METHOD_ERROR
-                    return process_response(request)
+                    return process_response(request, ResponseStatus.REQUEST_METHOD_ERROR)
             else:
-                request.status = ResponseStatus.UNEXPECTED_ERROR
-                return process_response(request)
+                return process_response(request, ResponseStatus.UNEXPECTED_ERROR)
 
         return wrapper
 
@@ -53,14 +50,12 @@ def RequiredParameters(parameters: Dict[str, ResponseStatus]):
                 except json.JSONDecodeError:
                     request.json_data = None
                 if request.json_data is None:
-                    request.status = ResponseStatus.JSON_DECODE_ERROR
-                    return process_response(request)
+                    return process_response(request, ResponseStatus.JSON_DECODE_ERROR)
 
             # 参数存在性判断
             for param in parameters:
                 if param not in request.json_data or not request.json_data[param]:
-                    request.status = parameters[param]
-                    return process_response(request)
+                    return process_response(request, parameters[param])
 
             # 正常处理
             return func(request)

@@ -136,3 +136,22 @@ EMAIL_HOST_USER = config.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 EMAIL_FROM = EMAIL_HOST_USER
+
+
+# Cache Redis config
+
+REDIS_PASSWORD = config.get('REDIS_PASSWORD')
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'CONNECTION_POOL_KWARGS': {
+                'max_connections': 100,
+                'decode_responses': True
+            },
+            'PASSWORD': REDIS_PASSWORD
+        }
+    }
+}

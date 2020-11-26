@@ -26,6 +26,7 @@ class ResponseStatus(Enum):
     PASSWORD_REQUIRED_ERROR = (41003, '缺少密码')
     EMAIL_REQUIRED_ERROR = (41004, '缺少邮箱')
     NEW_PASSWORD_REQUIRED_ERROR = (41005, '缺少新密码')
+    VERIFY_CODE_REQUIRED_ERROR = (41006, '缺少验证码')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')
@@ -41,6 +42,7 @@ class ResponseStatus(Enum):
     EMAIL_EXISTED_ERROR = (43002, '邮箱已存在')
     USERNAME_NOT_EXISTED_ERROR = (43003, '用户名不存在')
     PASSWORD_NOT_MATCH_ERROR = (43004, '密码错误')
+    VERIFY_CODE_NOT_MATCH_ERROR = (43005, '验证码不匹配')
 
     NOT_LOGIN = (44001, '未登陆')
 
@@ -54,7 +56,8 @@ class RequiredErrorStatus:
         'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
         'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
         'email': ResponseStatus.EMAIL_REQUIRED_ERROR,
-        'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR
+        'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR,
+        'verify_code': ResponseStatus.VERIFY_CODE_REQUIRED_ERROR
     }
 
     @classmethod

@@ -27,6 +27,8 @@ class ResponseStatus(Enum):
     EMAIL_REQUIRED_ERROR = (41004, '缺少邮箱')
     NEW_PASSWORD_REQUIRED_ERROR = (41005, '缺少新密码')
     VERIFY_CODE_REQUIRED_ERROR = (41006, '缺少验证码')
+    IMAGE_REQUIRED_ERROR = (41007, '缺少图片')
+    USAGE_REQUIRED_ERROR = (41008, '缺少用途')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')
@@ -37,6 +39,9 @@ class ResponseStatus(Enum):
     PASSWORD_LACK_NUMBER_ERROR = (42007, '密码必须包含数字')
     PASSWORD_LACK_LETTER_ERROR = (42008, '密码必须包含字母')
     EMAIL_FORMAT_ERROR = (42009, '邮箱格式错误')
+    USAGE_NOT_CORRECT_ERROR = (42010, '图片用途错误')
+    IMAGE_SIZE_TOO_LARGE_ERROR = (42011, '图片大小不得超过 5MB')
+    IMAGE_EXTENSION_NOT_ALLOWED_ERROR = (42012, '图片仅支持 jpg, png 格式')
 
     USERNAME_EXISTED_ERROR = (43001, '用户名已存在')
     EMAIL_EXISTED_ERROR = (43002, '邮箱已存在')
@@ -57,7 +62,9 @@ class RequiredErrorStatus:
         'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
         'email': ResponseStatus.EMAIL_REQUIRED_ERROR,
         'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR,
-        'verify_code': ResponseStatus.VERIFY_CODE_REQUIRED_ERROR
+        'verify_code': ResponseStatus.VERIFY_CODE_REQUIRED_ERROR,
+        'img': ResponseStatus.IMAGE_REQUIRED_ERROR,
+        'usage': ResponseStatus.USAGE_REQUIRED_ERROR
     }
 
     @classmethod

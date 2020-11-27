@@ -175,6 +175,25 @@ MINUTE = SECOND * 60
 HOUR = MINUTE * 60
 DAY = HOUR * 24
 
+# 图片文件允许的拓展名
+ALLOWED_IMAGE_EXTENSION = {
+    'jpg': "JPEG",
+    'jpeg': "JPEG",
+    'png': 'PNG'
+}
+
+# 图片文件的最大大小 5 MB
+IMAGE_MAX_SIZE = 5 * 1024 * 1024
+
+# 存储路径
+AVATAR_PATH = 'avatar/'
+PICTURE_PATH = 'picture/'
+
+IMAGE_USAGE = {
+    'a': AVATAR_PATH,
+    'p': PICTURE_PATH
+}
+
 
 # Verify Code Email Message
 

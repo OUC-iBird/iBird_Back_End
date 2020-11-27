@@ -52,7 +52,7 @@ def upload(request):
         return process_response(request, ResponseStatus.IMAGE_EXTENSION_NOT_ALLOWED_ERROR)
 
     request.data = {
-        'path': path
+        'path': '/' + path
     }
 
     return process_response(request, ResponseStatus.OK)

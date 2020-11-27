@@ -81,10 +81,21 @@ WSGI_APPLICATION = 'iBird.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# MySQL Database Config
+
+MYSQL_DATABASE_NAME = config.get('MYSQL_DATABASE_NAME')
+MYSQL_DATABASE_USER = config.get('MYSQL_DATABASE_USER')
+MYSQL_DATABASE_PASSWORD = config.get('MYSQL_DATABASE_PASSWORD')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+
+        'NAME': MYSQL_DATABASE_NAME,
+        'USER': MYSQL_DATABASE_USER,
+        'PASSWORD': MYSQL_DATABASE_PASSWORD,
+
+        'HOST': '127.0.0.1',
+        'PORT': '3306'
     }
 }
 

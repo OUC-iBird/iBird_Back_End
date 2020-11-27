@@ -16,9 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from apps.utils.image_uploader import upload
+from apps.utils import test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('api/test_get', test.test_get),  # 仅供测试
+    path('api/test_post', test.test_post),  # 仅供测试
+    path('api/test_patch', test.test_patch),  # 仅供测试
 
     path('api/upload', upload),
 

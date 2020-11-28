@@ -19,3 +19,7 @@ conf.json
 # image
 avatar
 picture
+
+# model
+*.csv
+*.pth

@@ -24,7 +24,7 @@ class NeuralNetwork:
         :param model_path: 训练完成的模型文件的路径
         :param classes_path: 类别文件的路径
         """
-        self._model = BilinearModel(num_classes=200)
+        self._model = BilinearModel(num_classes=200, pretrained=False)
         try:
             self._model.load(model_path, complexity=False)
         except Exception as e:

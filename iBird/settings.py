@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     # my apps
     'apps.account',
+    'apps.prediction'
 ]
 
 MIDDLEWARE = [
@@ -206,3 +207,9 @@ VERIFY_CODE_MAIL_MESSAGE = """
 
 iBird
 """
+
+
+# Model Config
+
+MODEL_PATH = config.get('MODEL_PATH')
+CLASSES_PATH = config.get('CLASSES_PATH')

@@ -29,6 +29,8 @@ class ResponseStatus(Enum):
     VERIFY_CODE_REQUIRED_ERROR = (41006, '缺少验证码')
     IMAGE_REQUIRED_ERROR = (41007, '缺少图片')
     USAGE_REQUIRED_ERROR = (41008, '缺少用途')
+    IMAGE_PATH_REQUIRED_ERROR = (41009, '缺少图片路径')
+    SEQUENCE_REQUIRED_ERROR = (41010, '缺少序列号')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')
@@ -48,6 +50,8 @@ class ResponseStatus(Enum):
     USERNAME_NOT_EXISTED_ERROR = (43003, '用户名不存在')
     PASSWORD_NOT_MATCH_ERROR = (43004, '密码错误')
     VERIFY_CODE_NOT_MATCH_ERROR = (43005, '验证码不匹配')
+    IMAGE_PATH_NOT_FOUND_ERROR = (43006, '图片路径不存在')
+    REPORT_NOT_EXISTED_ERROR = (43007, '报告不存在')
 
     NOT_LOGIN = (44001, '未登陆')
 
@@ -64,7 +68,9 @@ class RequiredErrorStatus:
         'new_password': ResponseStatus.NEW_PASSWORD_REQUIRED_ERROR,
         'verify_code': ResponseStatus.VERIFY_CODE_REQUIRED_ERROR,
         'img': ResponseStatus.IMAGE_REQUIRED_ERROR,
-        'usage': ResponseStatus.USAGE_REQUIRED_ERROR
+        'usage': ResponseStatus.USAGE_REQUIRED_ERROR,
+        'path': ResponseStatus.IMAGE_PATH_REQUIRED_ERROR,
+        'sequence': ResponseStatus.SEQUENCE_REQUIRED_ERROR
     }
 
     @classmethod

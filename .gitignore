@@ -19,6 +19,7 @@ conf.json
 # image
 avatar
 picture
+birds
 
 # model
 *.csv

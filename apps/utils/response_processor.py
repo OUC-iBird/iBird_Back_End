@@ -33,7 +33,7 @@ def process_response(request, status: ResponseStatus) -> HttpResponse:
     content['msg'] = status.value[1]
 
     # 响应数据处理
-    if hasattr(request, 'data'):
+    if status == ResponseStatus.OK and hasattr(request, 'data'):
         content['data'] = request.data
 
     # 响应内容 JSON 格式化

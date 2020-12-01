@@ -2,7 +2,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.core.cache import cache
 
 from iBird import settings
-from apps.utils.decorator import RequiredMethod, RequiredParameters
+from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect
 from apps.utils.response_status import ResponseStatus
 from apps.utils.response_processor import process_response
 from apps.utils.validator import validate_username, validate_password, validate_email
@@ -11,6 +11,7 @@ from apps.utils.email_sender import send
 from apps.account import models as account_models
 
 
+@Protect
 @RequiredMethod('POST')
 @RequiredParameters('username', 'password', 'email')
 def register(request):
@@ -56,6 +57,7 @@ def register(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @RequiredMethod('POST')
 @RequiredParameters('username', 'password')
 def login(request):
@@ -80,6 +82,7 @@ def login(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @RequiredMethod('POST')
 def logout(request):
     if request.session.get('username') is not None:
@@ -91,6 +94,7 @@ def logout(request):
     return process_response(request, status)
 
 
+@Protect
 @RequiredMethod('GET')
 def get_status(request):
     if request.session.get('username') is not None:
@@ -116,6 +120,7 @@ def get_status(request):
         return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @RequiredMethod('POST')
 @RequiredParameters('username', 'password', 'new_password')
 def change_password(request):
@@ -199,6 +204,7 @@ def change_forget_password(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @RequiredMethod(['POST', 'PATCH'])
 def forget_password(request):
     return {'POST': send_password_verify_code, 'PATCH': change_forget_password}[request.method](request)

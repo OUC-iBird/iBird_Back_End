@@ -3,7 +3,7 @@ import os
 
 from iBird import settings
 from apps.prediction.neural_network.predict_server import NeuralNetwork
-from apps.utils.decorator import RequiredMethod, RequiredParameters
+from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect
 from apps.utils.response_processor import process_response
 from apps.utils.response_status import ResponseStatus
 from apps.prediction import models as prediction_models
@@ -12,6 +12,7 @@ from apps.prediction import models as prediction_models
 net = NeuralNetwork(settings.MODEL_PATH, settings.CLASSES_PATH)
 
 
+@Protect
 @RequiredMethod('POST')
 @RequiredParameters('path')
 def predict(request):
@@ -33,6 +34,7 @@ def predict(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @RequiredMethod('GET')
 def get_report(request):
     sequence = request.GET.get('sequence')

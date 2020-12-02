@@ -3,6 +3,8 @@ import json
 from typing import Union
 from functools import wraps
 
+from ratelimit.exceptions import Ratelimited
+
 from apps.utils.response_status import ResponseStatus, RequiredErrorStatus
 from apps.utils.response_processor import process_response
 
@@ -73,6 +75,8 @@ def Protect(func):
     def wrapper(request):
         try:
             return func(request)
+        except Ratelimited:
+            return process_response(request, ResponseStatus.FORBIDDEN)
         except Exception:
             return process_response(request, ResponseStatus.UNEXPECTED_ERROR)
 

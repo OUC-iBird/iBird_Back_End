@@ -1,6 +1,8 @@
 import re
 import os
 
+from ratelimit.decorators import ratelimit
+
 from iBird import settings
 from apps.prediction.neural_network.predict_server import NeuralNetwork
 from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect
@@ -13,6 +15,7 @@ net = NeuralNetwork(settings.MODEL_PATH, settings.CLASSES_PATH)
 
 
 @Protect
+@ratelimit(**settings.RATE_LIMIT_LEVEL_1)
 @RequiredMethod('POST')
 @RequiredParameters('path')
 def predict(request):
@@ -35,6 +38,7 @@ def predict(request):
 
 
 @Protect
+@ratelimit(**settings.RATE_LIMIT_LEVEL_3)
 @RequiredMethod('GET')
 def get_report(request):
     sequence = request.GET.get('sequence')

@@ -14,6 +14,9 @@ class ResponseStatus(Enum):
     # 成功
     OK = (20000, '成功')
 
+    # 禁止访问
+    FORBIDDEN = (50403, 'Forbidden')
+
     # 意外错误
     UNEXPECTED_ERROR = (50000, '意外错误')
 

@@ -3,14 +3,17 @@ import re
 import os
 
 import magic
+from ratelimit.decorators import ratelimit
 
 from iBird import settings
-from apps.utils.decorator import RequiredMethod
+from apps.utils.decorator import RequiredMethod, Protect
 from apps.utils.response_processor import process_response
 from apps.utils.response_status import ResponseStatus
 from apps.utils.random_string_generator import generate_string, Pattern
 
 
+@Protect
+@ratelimit(**settings.RATE_LIMIT_LEVEL_1)
 @RequiredMethod('POST')
 def upload(request):
     # 图片

@@ -213,3 +213,11 @@ iBird
 
 MODEL_PATH = config.get('MODEL_PATH')
 CLASSES_PATH = config.get('CLASSES_PATH')
+
+
+# RateLimit
+# 1 --> 3: Strict Mode --> Loose Mode
+
+RATE_LIMIT_LEVEL_1 = {'block': True, 'key': 'ip', 'rate': '1/2s'}
+RATE_LIMIT_LEVEL_2 = {'block': True, 'key': 'ip', 'rate': '1/1s'}
+RATE_LIMIT_LEVEL_3 = {'block': True, 'key': 'ip', 'rate': '5/1s'}

@@ -13,8 +13,8 @@ from apps.utils.random_string_generator import generate_string, Pattern
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_1)
 @RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_1)
 def upload(request):
     # 图片
     img = request.FILES.get('img')

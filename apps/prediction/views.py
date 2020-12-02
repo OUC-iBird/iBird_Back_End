@@ -15,8 +15,8 @@ net = NeuralNetwork(settings.MODEL_PATH, settings.CLASSES_PATH)
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_1)
 @RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_1)
 @RequiredParameters('path')
 def predict(request):
     json_data = request.json_data
@@ -38,8 +38,8 @@ def predict(request):
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_3)
 @RequiredMethod('GET')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_3)
 def get_report(request):
     sequence = request.GET.get('sequence')
     if not sequence:

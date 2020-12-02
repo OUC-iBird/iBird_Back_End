@@ -13,8 +13,8 @@ from apps.account import models as account_models
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username', 'password', 'email')
 def register(request):
     # 经过处理的 JSON 数据
@@ -60,8 +60,8 @@ def register(request):
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username', 'password')
 def login(request):
     # 经过处理的 JSON 数据
@@ -86,8 +86,8 @@ def login(request):
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 def logout(request):
     if request.session.get('username') is not None:
         del request.session['username']
@@ -99,8 +99,8 @@ def logout(request):
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_3)
 @RequiredMethod('GET')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_3)
 def get_status(request):
     if request.session.get('username') is not None:
         username = request.session.get('username')
@@ -126,8 +126,8 @@ def get_status(request):
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username', 'password', 'new_password')
 def change_password(request):
     json_data = request.json_data
@@ -156,6 +156,7 @@ def change_password(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username')
 def send_password_verify_code(request):
     json_data = request.json_data
@@ -181,6 +182,7 @@ def send_password_verify_code(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username', 'new_password', 'verify_code')
 def change_forget_password(request):
     json_data = request.json_data
@@ -211,7 +213,6 @@ def change_forget_password(request):
 
 
 @Protect
-@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredMethod(['POST', 'PATCH'])
 def forget_password(request):
     return {'POST': send_password_verify_code, 'PATCH': change_forget_password}[request.method](request)

@@ -43,10 +43,10 @@ class Report(models.Model):
             'sequence': self.sequence,
             'path': self.path,
             'result': [
-                (self.top1_label, self.top1_label_index, self.top1_probability),
-                (self.top2_label, self.top2_label_index, self.top2_probability),
-                (self.top3_label, self.top3_label_index, self.top3_probability),
-                (self.top4_label, self.top4_label_index, self.top4_probability),
-                (self.top5_label, self.top5_label_index, self.top5_probability),
+                {'label': self.top1_label, 'id': self.top1_label_index, 'probability': self.top1_probability},
+                {'label': self.top2_label, 'id': self.top2_label_index, 'probability': self.top2_probability},
+                {'label': self.top3_label, 'id': self.top3_label_index, 'probability': self.top3_probability},
+                {'label': self.top4_label, 'id': self.top4_label_index, 'probability': self.top4_probability},
+                {'label': self.top5_label, 'id': self.top5_label_index, 'probability': self.top5_probability},
             ]
         }

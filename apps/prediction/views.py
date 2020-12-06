@@ -7,7 +7,7 @@ from iBird import settings
 from apps.prediction.neural_network.predict_server import NeuralNetwork
 from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect
 from apps.utils.response_processor import process_response
-from apps.utils.response_status import ResponseStatus
+from apps.utils.response_status import ResponseStatus, ValueErrorStatus
 from apps.prediction import models as prediction_models
 
 # 识别网络
@@ -20,6 +20,10 @@ net = NeuralNetwork(settings.MODEL_PATH, settings.CLASSES_PATH)
 @RequiredParameters('path')
 def predict(request):
     json_data = request.json_data
+
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
 
     path = json_data['path']
     if len(path) > 100 or re.search(r'\.\.', path) or path[:9] != '/' + settings.PICTURE_PATH \
@@ -45,6 +49,11 @@ def get_report(request):
     if not sequence:
         return process_response(request, ResponseStatus.SEQUENCE_REQUIRED_ERROR)
 
+    status = ValueErrorStatus.check_value_type({'sequence': sequence})
+    if status is not None:
+        return process_response(request, status)
+    sequence = int(sequence)
+
     report = prediction_models.Report.objects.filter(id=sequence).first()
     if not report:
         return process_response(request, ResponseStatus.REPORT_NOT_EXISTED_ERROR)
@@ -62,7 +71,12 @@ def get_bird_info(request):
     if not bird_id:
         return process_response(request, ResponseStatus.BIRD_ID_REQUIRED_ERROR)
 
-    if not 1 <= int(bird_id) <= 200:
+    status = ValueErrorStatus.check_value_type({'bird_id': bird_id})
+    if status is not None:
+        return process_response(request, status)
+    bird_id = int(bird_id)
+
+    if not 1 <= bird_id <= 200:
         return process_response(request, ResponseStatus.BIRD_ID_NOT_EXISTED_ERROR)
 
     bird = prediction_models.Bird.objects.filter(id=bird_id).first()

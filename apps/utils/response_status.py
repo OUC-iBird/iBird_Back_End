@@ -24,7 +24,7 @@ class ResponseStatus(Enum):
     REQUEST_METHOD_ERROR = (40000, '请求方法错误')
     JSON_DECODE_ERROR = (40001, 'JSON 解析错误')
 
-    CAPTCHA_ERROR_ERROR = (41001, '缺少验证码')
+    CAPTCHA_REQUIRED_ERROR = (41001, '缺少验证码')
     USERNAME_REQUIRED_ERROR = (41002, '缺少用户名')
     PASSWORD_REQUIRED_ERROR = (41003, '缺少密码')
     EMAIL_REQUIRED_ERROR = (41004, '缺少邮箱')
@@ -60,13 +60,25 @@ class ResponseStatus(Enum):
 
     NOT_LOGIN = (44001, '未登陆')
 
+    CAPTCHA_VALUE_ERROR = (45001, '验证码类型错误')
+    USERNAME_VALUE_ERROR = (45002, '用户名类型错误')
+    PASSWORD_VALUE_ERROR = (45003, '密码类型错误')
+    EMAIL_VALUE_ERROR = (45004, '邮箱类型错误')
+    NEW_PASSWORD_VALUE_ERROR = (45005, '新密码类型错误')
+    VERIFY_CODE_VALUE_ERROR = (45006, '验证码类型错误')
+    IMAGE_VALUE_ERROR = (45007, '图片类型错误')
+    USAGE_VALUE_ERROR = (45008, '用途类型错误')
+    IMAGE_PATH_VALUE_ERROR = (45009, '图片路径类型错误')
+    SEQUENCE_VALUE_ERROR = (45010, '序列号类型错误')
+    BIRD_ID_VALUE_ERROR = (45011, '鸟类编号类型错误')
+
 
 class RequiredErrorStatus:
     """
     要求参数缺失状态的映射类
     """
     __required_error_map = {
-        'captcha': ResponseStatus.CAPTCHA_ERROR_ERROR,
+        'captcha': ResponseStatus.CAPTCHA_REQUIRED_ERROR,
         'username': ResponseStatus.USERNAME_REQUIRED_ERROR,
         'password': ResponseStatus.PASSWORD_REQUIRED_ERROR,
         'email': ResponseStatus.EMAIL_REQUIRED_ERROR,
@@ -85,3 +97,60 @@ class RequiredErrorStatus:
             return cls.__required_error_map[param]
         else:
             return ResponseStatus.UNEXPECTED_ERROR
+
+
+class ValueType(Enum):
+    STRING = 1
+    INTEGER = 2
+
+
+class ValueErrorStatus:
+    __value_error_map = {
+        'captcha': ResponseStatus.CAPTCHA_VALUE_ERROR,
+        'username': ResponseStatus.USERNAME_VALUE_ERROR,
+        'password': ResponseStatus.PASSWORD_VALUE_ERROR,
+        'email': ResponseStatus.EMAIL_VALUE_ERROR,
+        'new_password': ResponseStatus.NEW_PASSWORD_VALUE_ERROR,
+        'verify_code': ResponseStatus.VERIFY_CODE_VALUE_ERROR,
+        'img': ResponseStatus.IMAGE_VALUE_ERROR,
+        'usage': ResponseStatus.USAGE_VALUE_ERROR,
+        'path': ResponseStatus.IMAGE_PATH_VALUE_ERROR,
+        'sequence': ResponseStatus.SEQUENCE_VALUE_ERROR,
+        'bird_id': ResponseStatus.BIRD_ID_VALUE_ERROR
+    }
+
+    __value_type_map = {
+        'captcha': ValueType.STRING,
+        'username': ValueType.STRING,
+        'password': ValueType.STRING,
+        'email': ValueType.STRING,
+        'new_password': ValueType.STRING,
+        'verify_code': ValueType.STRING,
+        'img': ValueType.STRING,
+        'usage': ValueType.STRING,
+        'path': ValueType.STRING,
+        'sequence': ValueType.INTEGER,
+        'bird_id': ValueType.INTEGER
+    }
+
+    @classmethod
+    def check_value_type(cls, data: dict):
+        for key in data:
+            if key not in cls.__value_type_map:
+                continue
+
+            value_type = cls.__value_type_map[key]
+            if value_type == ValueType.STRING:
+                if not isinstance(data[key], str):
+                    try:
+                        data[key] = str(data[key])
+                    except ValueError:
+                        return cls.__value_error_map[key]
+            elif value_type == ValueType.INTEGER:
+                if not isinstance(data[key], int):
+                    try:
+                        data[key] = int(data[key])
+                    except ValueError:
+                        return cls.__value_error_map[key]
+
+        return None

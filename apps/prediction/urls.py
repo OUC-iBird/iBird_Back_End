@@ -19,5 +19,6 @@ from . import views
 
 urlpatterns = [
     path('predict', views.predict),
-    path('get_report', views.get_report)
+    path('get_report', views.get_report),
+    path('get_bird_info', views.get_bird_info)
 ]

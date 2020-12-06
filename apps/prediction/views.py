@@ -52,3 +52,20 @@ def get_report(request):
     request.data = report.transform_into_serialized_data()
 
     return process_response(request, ResponseStatus.OK)
+
+
+@Protect
+@RequiredMethod('GET')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_3)
+def get_bird_info(request):
+    bird_id = request.GET.get('bird_id')
+    if not bird_id:
+        return process_response(request, ResponseStatus.BIRD_ID_REQUIRED_ERROR)
+
+    if not 1 <= int(bird_id) <= 200:
+        return process_response(request, ResponseStatus.BIRD_ID_NOT_EXISTED_ERROR)
+
+    bird = prediction_models.Bird.objects.filter(id=bird_id).first()
+    request.data = bird.transform_into_serialized_data()
+
+    return process_response(request, ResponseStatus.OK)

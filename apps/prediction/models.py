@@ -73,3 +73,11 @@ class Bird(models.Model):
 
     def __str__(self):
         return self.name_CN
+
+    def transform_into_serialized_data(self):
+        return {
+            'id': self.id,
+            'name': self.name_CN,
+            'name_EN': self.name_EN,
+            'info': self.info
+        }

@@ -43,10 +43,33 @@ class Report(models.Model):
             'sequence': self.sequence,
             'path': self.path,
             'result': [
-                {'label': self.top1_label, 'id': self.top1_label_index, 'probability': self.top1_probability},
-                {'label': self.top2_label, 'id': self.top2_label_index, 'probability': self.top2_probability},
-                {'label': self.top3_label, 'id': self.top3_label_index, 'probability': self.top3_probability},
-                {'label': self.top4_label, 'id': self.top4_label_index, 'probability': self.top4_probability},
-                {'label': self.top5_label, 'id': self.top5_label_index, 'probability': self.top5_probability},
+                {'label': self.top1_label, 'id': self.top1_label_index, 'probability': self.top1_probability,
+                 'info': Bird.objects.filter(id=self.top1_label_index).first().info
+                 },
+                {'label': self.top2_label, 'id': self.top2_label_index, 'probability': self.top2_probability,
+                 'info': Bird.objects.filter(id=self.top2_label_index).first().info
+                 },
+                {'label': self.top3_label, 'id': self.top3_label_index, 'probability': self.top3_probability,
+                 'info': Bird.objects.filter(id=self.top3_label_index).first().info
+                 },
+                {'label': self.top4_label, 'id': self.top4_label_index, 'probability': self.top4_probability,
+                 'info': Bird.objects.filter(id=self.top4_label_index).first().info
+                 },
+                {'label': self.top5_label, 'id': self.top5_label_index, 'probability': self.top5_probability,
+                 'info': Bird.objects.filter(id=self.top5_label_index).first().info
+                 },
             ]
         }
+
+
+class Bird(models.Model):
+    name_CN = models.CharField(max_length=255, verbose_name='名称', null=False, blank=False)
+    name_EN = models.CharField(max_length=255, verbose_name='名称', null=False, blank=False)
+    info = models.TextField(verbose_name='介绍', null=False, blank=True)
+
+    class Meta:
+        verbose_name = '鸟类'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name_CN

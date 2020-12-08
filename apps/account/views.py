@@ -4,7 +4,7 @@ from django.core.cache import cache
 from ratelimit.decorators import ratelimit
 
 from iBird import settings
-from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect
+from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect, LoginRequired
 from apps.utils.response_status import ResponseStatus, ValueErrorStatus
 from apps.utils.response_processor import process_response
 from apps.utils.validator import validate_username, validate_password, validate_email
@@ -100,14 +100,11 @@ def login(request):
 @Protect
 @RequiredMethod('POST')
 @ratelimit(**settings.RATE_LIMIT_LEVEL_2)
+@LoginRequired
 def logout(request):
-    if request.session.get('username') is not None:
-        del request.session['username']
-        status = ResponseStatus.OK
-    else:
-        status = ResponseStatus.NOT_LOGIN
+    del request.session['username']
 
-    return process_response(request, status)
+    return process_response(request, ResponseStatus.OK)
 
 
 @Protect

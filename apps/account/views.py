@@ -78,6 +78,9 @@ def login(request):
     username = json_data['username']
     password = json_data['password']
 
+    if request.session.get('username', '') == username:
+        return process_response(request, ResponseStatus.OK)
+
     # 用户 user 存在性验证
     user = account_models.User.objects.filter(username=username).first()
     if not user:

@@ -1,4 +1,5 @@
 from django.contrib.auth.hashers import make_password, check_password
+from django.db.models import Q
 from django.core.cache import cache
 from ratelimit.decorators import ratelimit
 
@@ -82,7 +83,7 @@ def login(request):
         return process_response(request, ResponseStatus.OK)
 
     # 用户 user 存在性验证
-    user = account_models.User.objects.filter(username=username).first()
+    user = account_models.User.objects.filter(Q(username=username) | Q(userinfo__email=username)).first()
     if not user:
         return process_response(request, ResponseStatus.USERNAME_NOT_EXISTED_ERROR)
 
@@ -91,7 +92,7 @@ def login(request):
         return process_response(request, ResponseStatus.PASSWORD_NOT_MATCH_ERROR)
 
     # 设置登陆状态
-    request.session['username'] = username
+    request.session['username'] = user.username
 
     return process_response(request, ResponseStatus.OK)
 

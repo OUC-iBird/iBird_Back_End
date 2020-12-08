@@ -4,7 +4,7 @@ from ratelimit.decorators import ratelimit
 
 from iBird import settings
 from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect
-from apps.utils.response_status import ResponseStatus
+from apps.utils.response_status import ResponseStatus, ValueErrorStatus
 from apps.utils.response_processor import process_response
 from apps.utils.validator import validate_username, validate_password, validate_email
 from apps.utils.random_string_generator import generate_string, Pattern
@@ -19,6 +19,10 @@ from apps.account import models as account_models
 def register(request):
     # 经过处理的 JSON 数据
     json_data = request.json_data
+
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
 
     # 用户名 username 格式检验
     username = json_data['username']
@@ -66,6 +70,10 @@ def register(request):
 def login(request):
     # 经过处理的 JSON 数据
     json_data = request.json_data
+
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
 
     username = json_data['username']
     password = json_data['password']
@@ -132,6 +140,10 @@ def get_status(request):
 def change_password(request):
     json_data = request.json_data
 
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
+
     # 新密码 new_password 格式验证
     new_password = json_data['new_password']
     status = validate_password(new_password)
@@ -161,6 +173,10 @@ def change_password(request):
 def send_password_verify_code(request):
     json_data = request.json_data
 
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
+
     # 用户 user 存在性验证
     username = json_data['username']
     user = account_models.User.objects.filter(username=username).first()
@@ -186,6 +202,10 @@ def send_password_verify_code(request):
 @RequiredParameters('username', 'new_password', 'verify_code')
 def change_forget_password(request):
     json_data = request.json_data
+
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
 
     # 用户 user 存在性验证
     username = json_data['username']

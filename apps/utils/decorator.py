@@ -81,3 +81,18 @@ def Protect(func):
             return process_response(request, ResponseStatus.UNEXPECTED_ERROR)
 
     return wrapper
+
+
+def LoginRequired(func):
+    """
+    要求登陆装饰器
+    """
+    @wraps(func)
+    def wrapper(request):
+        if request.session.get('username', None) is None:
+            return process_response(request, ResponseStatus.NOT_LOGIN)
+
+        # 正常处理
+        return func(request)
+
+    return wrapper

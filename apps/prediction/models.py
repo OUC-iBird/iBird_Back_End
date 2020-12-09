@@ -1,5 +1,7 @@
 from django.db import models
 
+from iBird import settings
+
 
 class Report(models.Model):
     path = models.CharField(max_length=100, verbose_name='图片路径', null=False, blank=False)
@@ -44,19 +46,24 @@ class Report(models.Model):
             'path': self.path,
             'result': [
                 {'label': self.top1_label, 'id': self.top1_label_index, 'probability': self.top1_probability,
-                 'info': Bird.objects.filter(id=self.top1_label_index).first().info
+                 'info': Bird.objects.filter(id=self.top1_label_index).first().info,
+                 'img': settings.BIRDS_EXAMPLE_URL.format(bird_id=self.top1_label_index)
                  },
                 {'label': self.top2_label, 'id': self.top2_label_index, 'probability': self.top2_probability,
-                 'info': Bird.objects.filter(id=self.top2_label_index).first().info
+                 'info': Bird.objects.filter(id=self.top2_label_index).first().info,
+                 'img': settings.BIRDS_EXAMPLE_URL.format(bird_id=self.top2_label_index)
                  },
                 {'label': self.top3_label, 'id': self.top3_label_index, 'probability': self.top3_probability,
-                 'info': Bird.objects.filter(id=self.top3_label_index).first().info
+                 'info': Bird.objects.filter(id=self.top3_label_index).first().info,
+                 'img': settings.BIRDS_EXAMPLE_URL.format(bird_id=self.top3_label_index)
                  },
                 {'label': self.top4_label, 'id': self.top4_label_index, 'probability': self.top4_probability,
-                 'info': Bird.objects.filter(id=self.top4_label_index).first().info
+                 'info': Bird.objects.filter(id=self.top4_label_index).first().info,
+                 'img': settings.BIRDS_EXAMPLE_URL.format(bird_id=self.top4_label_index)
                  },
                 {'label': self.top5_label, 'id': self.top5_label_index, 'probability': self.top5_probability,
-                 'info': Bird.objects.filter(id=self.top5_label_index).first().info
+                 'info': Bird.objects.filter(id=self.top5_label_index).first().info,
+                 'img': settings.BIRDS_EXAMPLE_URL.format(bird_id=self.top5_label_index)
                  },
             ]
         }
@@ -76,8 +83,9 @@ class Bird(models.Model):
 
     def transform_into_serialized_data(self):
         return {
-            'id': self.id,
+            'bird_id': self.id,
             'name': self.name_CN,
             'name_EN': self.name_EN,
-            'info': self.info
+            'info': self.info,
+            'img': settings.BIRDS_EXAMPLE_URL.format(bird_id=self.id)
         }

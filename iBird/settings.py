@@ -191,6 +191,9 @@ IMAGE_MAX_SIZE = 5 * 1024 * 1024
 AVATAR_PATH = 'avatar/'
 PICTURE_PATH = 'picture/'
 
+# 鸟类示例图
+BIRDS_EXAMPLE_URL = '/birds/{bird_id}.jpg'
+
 IMAGE_USAGE = {
     'a': AVATAR_PATH,
     'p': PICTURE_PATH

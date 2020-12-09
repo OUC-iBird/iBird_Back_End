@@ -61,6 +61,7 @@ class ResponseStatus(Enum):
     IMAGE_PATH_NOT_FOUND_ERROR = (43006, '图片路径不存在')
     REPORT_NOT_EXISTED_ERROR = (43007, '报告不存在')
     BIRD_ID_NOT_EXISTED_ERROR = (43008, '鸟类编号不存在')
+    PHOTO_EXISTED_ERROR = (43009, '图片已存在')
 
     NOT_LOGIN = (44001, '未登陆')
 

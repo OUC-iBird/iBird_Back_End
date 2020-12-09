@@ -46,6 +46,9 @@ def save_in_gallery(request):
     user = account_models.User.objects.filter(username=request.session.get('username')).first()
     report = prediction_models.Report.objects.filter(path=path).first()
 
+    if gallery_models.Photo.objects.filter(user=user, path=path):
+        return process_response(request, ResponseStatus.PHOTO_EXISTED_ERROR)
+
     photo = gallery_models.Photo(user=user, path=path, report=report, address=address,
                                  latitude=latitude, longitude=longitude)
     photo.save()

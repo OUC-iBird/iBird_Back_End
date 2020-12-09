@@ -56,7 +56,7 @@ def RequiredParameters(*parameters):
 
             # 参数存在性判断
             for param in parameters:
-                if param not in request.json_data or not request.json_data[param]:
+                if param not in request.json_data or request.json_data[param] == '':
                     return process_response(request, RequiredErrorStatus.get_required_error_status(param))
 
             # 正常处理

@@ -45,7 +45,8 @@ INSTALLED_APPS = [
 
     # my apps
     'apps.account',
-    'apps.prediction'
+    'apps.prediction',
+    'apps.gallery'
 ]
 
 MIDDLEWARE = [
@@ -195,6 +196,7 @@ IMAGE_USAGE = {
     'p': PICTURE_PATH
 }
 
+PHOTOS_PER_PAGE = 12
 
 # Verify Code Email Message
 
@@ -221,3 +223,8 @@ CLASSES_PATH = config.get('CLASSES_PATH')
 RATE_LIMIT_LEVEL_1 = {'block': True, 'key': 'ip', 'rate': '2/2s'}
 RATE_LIMIT_LEVEL_2 = {'block': True, 'key': 'ip', 'rate': '2/1s'}
 RATE_LIMIT_LEVEL_3 = {'block': True, 'key': 'ip', 'rate': '5/1s'}
+
+# Baidu Map
+BAIDU_API_KEY = config.get('BAIDU_API_KEY')
+BAIDU_ADDRESS_API_URL = 'http://api.map.baidu.com/geocoder?output=json&location={latitude},{longitude}&ak=' \
+                        + BAIDU_API_KEY

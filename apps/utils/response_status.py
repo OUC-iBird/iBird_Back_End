@@ -35,6 +35,9 @@ class ResponseStatus(Enum):
     IMAGE_PATH_REQUIRED_ERROR = (41009, '缺少图片路径')
     SEQUENCE_REQUIRED_ERROR = (41010, '缺少序列号')
     BIRD_ID_REQUIRED_ERROR = (41011, '缺少鸟类编号')
+    LONGITUDE_REQUIRED_ERROR = (41012, '缺少经度')
+    LATITUDE_REQUIRED_ERROR = (41013, '缺少纬度')
+    NUM_REQUIRED_ERROR = (41014, '缺少页号')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')
@@ -48,6 +51,7 @@ class ResponseStatus(Enum):
     USAGE_NOT_CORRECT_ERROR = (42010, '图片用途错误')
     IMAGE_SIZE_TOO_LARGE_ERROR = (42011, '图片大小不得超过 5MB')
     IMAGE_EXTENSION_NOT_ALLOWED_ERROR = (42012, '图片仅支持 jpg, png 格式')
+    NUM_OUT_OF_RANGE_ERROR = (42013, '页号超出范围')
 
     USERNAME_EXISTED_ERROR = (43001, '用户名已存在')
     EMAIL_EXISTED_ERROR = (43002, '邮箱已存在')
@@ -71,6 +75,9 @@ class ResponseStatus(Enum):
     IMAGE_PATH_VALUE_ERROR = (45009, '图片路径类型错误')
     SEQUENCE_VALUE_ERROR = (45010, '序列号类型错误')
     BIRD_ID_VALUE_ERROR = (45011, '鸟类编号类型错误')
+    LONGITUDE_VALUE_ERROR = (45012, '经度类型错误')
+    LATITUDE_VALUE_ERROR = (45013, '纬度类型错误')
+    NUM_VALUE_ERROR = (45014, '页号类型错误')
 
 
 class RequiredErrorStatus:
@@ -88,7 +95,10 @@ class RequiredErrorStatus:
         'usage': ResponseStatus.USAGE_REQUIRED_ERROR,
         'path': ResponseStatus.IMAGE_PATH_REQUIRED_ERROR,
         'sequence': ResponseStatus.SEQUENCE_REQUIRED_ERROR,
-        'bird_id': ResponseStatus.BIRD_ID_REQUIRED_ERROR
+        'bird_id': ResponseStatus.BIRD_ID_REQUIRED_ERROR,
+        'longitude': ResponseStatus.LONGITUDE_REQUIRED_ERROR,
+        'latitude': ResponseStatus.LATITUDE_REQUIRED_ERROR,
+        'num': ResponseStatus.NUM_REQUIRED_ERROR
     }
 
     @classmethod
@@ -102,6 +112,7 @@ class RequiredErrorStatus:
 class ValueType(Enum):
     STRING = 1
     INTEGER = 2
+    FLOAT = 3
 
 
 class ValueErrorStatus:
@@ -116,7 +127,10 @@ class ValueErrorStatus:
         'usage': ResponseStatus.USAGE_VALUE_ERROR,
         'path': ResponseStatus.IMAGE_PATH_VALUE_ERROR,
         'sequence': ResponseStatus.SEQUENCE_VALUE_ERROR,
-        'bird_id': ResponseStatus.BIRD_ID_VALUE_ERROR
+        'bird_id': ResponseStatus.BIRD_ID_VALUE_ERROR,
+        'longitude': ResponseStatus.LONGITUDE_VALUE_ERROR,
+        'latitude': ResponseStatus.LATITUDE_VALUE_ERROR,
+        'num': ResponseStatus.NUM_VALUE_ERROR
     }
 
     __value_type_map = {
@@ -130,7 +144,10 @@ class ValueErrorStatus:
         'usage': ValueType.STRING,
         'path': ValueType.STRING,
         'sequence': ValueType.INTEGER,
-        'bird_id': ValueType.INTEGER
+        'bird_id': ValueType.INTEGER,
+        'longitude': ValueType.FLOAT,
+        'latitude': ValueType.FLOAT,
+        'num': ValueType.INTEGER
     }
 
     @classmethod
@@ -152,5 +169,10 @@ class ValueErrorStatus:
                         data[key] = int(data[key])
                     except ValueError:
                         return cls.__value_error_map[key]
-
+            elif value_type == ValueType.FLOAT:
+                if not isinstance(data[key], float):
+                    try:
+                        data[key] = float(data[key])
+                    except ValueError:
+                        return cls.__value_error_map[key]
         return None

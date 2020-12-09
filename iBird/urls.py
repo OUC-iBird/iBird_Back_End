@@ -28,5 +28,6 @@ urlpatterns = [
     path('api/upload', upload),
 
     path('api/account/', include(('apps.account.urls', 'apps.account'), namespace='account')),
-    path('api/prediction/', include(('apps.prediction.urls', 'apps.prediction'), namespace='prediction'))
+    path('api/prediction/', include(('apps.prediction.urls', 'apps.prediction'), namespace='prediction')),
+    path('api/gallery/', include(('apps.gallery.urls', 'apps.gallery'), namespace='gallery'))
 ]

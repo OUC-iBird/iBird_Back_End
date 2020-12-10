@@ -40,6 +40,8 @@ class ResponseStatus(Enum):
     NUM_REQUIRED_ERROR = (41014, '缺少页号')
     CONTENT_REQUIRED_ERROR = (41015, '缺少内容')
     POST_ID_REQUIRED_ERROR = (41016, '缺少动态 ID')
+    NICKNAME_REQUIRED_ERROR = (41017, '缺少昵称')
+    AVATAR_REQUIRED_ERROR = (41018, '缺少头像')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')
@@ -55,6 +57,7 @@ class ResponseStatus(Enum):
     IMAGE_EXTENSION_NOT_ALLOWED_ERROR = (42012, '图片仅支持 jpg, png 格式')
     NUM_OUT_OF_RANGE_ERROR = (42013, '页号超出范围')
     CONTENT_LENGTH_TOO_LARGE_ERROR = (42014, '内容过长')
+    NICKNAME_LENGTH_TOO_LARGE_ERROR = (42015, '昵称过长')
 
     USERNAME_EXISTED_ERROR = (43001, '用户名已存在')
     EMAIL_EXISTED_ERROR = (43002, '邮箱已存在')
@@ -86,6 +89,8 @@ class ResponseStatus(Enum):
     NUM_VALUE_ERROR = (45014, '页号类型错误')
     CONTENT_VALUE_ERROR = (45015, '内容类型错误')
     POST_ID_VALUE_ERROR = (45016, '动态 ID 类型错误')
+    NICKNAME_VALUE_ERROR = (45017, '昵称类型错误')
+    AVATAR_VALUE_ERROR = (45018, '头像类型错误')
 
 
 class RequiredErrorStatus:
@@ -108,7 +113,9 @@ class RequiredErrorStatus:
         'latitude': ResponseStatus.LATITUDE_REQUIRED_ERROR,
         'num': ResponseStatus.NUM_REQUIRED_ERROR,
         'content': ResponseStatus.CONTENT_REQUIRED_ERROR,
-        'post_id': ResponseStatus.POST_ID_REQUIRED_ERROR
+        'post_id': ResponseStatus.POST_ID_REQUIRED_ERROR,
+        'nickname': ResponseStatus.NICKNAME_REQUIRED_ERROR,
+        'avatar': ResponseStatus.AVATAR_REQUIRED_ERROR
     }
 
     @classmethod
@@ -142,7 +149,9 @@ class ValueErrorStatus:
         'latitude': ResponseStatus.LATITUDE_VALUE_ERROR,
         'num': ResponseStatus.NUM_VALUE_ERROR,
         'content': ResponseStatus.CONTENT_VALUE_ERROR,
-        'post_id': ResponseStatus.POST_ID_VALUE_ERROR
+        'post_id': ResponseStatus.POST_ID_VALUE_ERROR,
+        'nickname': ResponseStatus.NICKNAME_VALUE_ERROR,
+        'avatar': ResponseStatus.AVATAR_VALUE_ERROR
     }
 
     __value_type_map = {
@@ -161,7 +170,9 @@ class ValueErrorStatus:
         'latitude': ValueType.FLOAT,
         'num': ValueType.INTEGER,
         'content': ValueType.STRING,
-        'post': ValueType.INTEGER
+        'post': ValueType.INTEGER,
+        'nickname': ValueType.STRING,
+        'avatar': ValueType.STRING
     }
 
     @classmethod

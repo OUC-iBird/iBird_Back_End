@@ -1,3 +1,6 @@
+import re
+import os
+
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
 from django.core.cache import cache
@@ -237,3 +240,50 @@ def change_forget_password(request):
 @RequiredMethod(['POST', 'PATCH'])
 def forget_password(request):
     return {'POST': send_password_verify_code, 'PATCH': change_forget_password}[request.method](request)
+
+
+@Protect
+@RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
+@LoginRequired
+@RequiredParameters('nickname')
+def change_nickname(request):
+    json_data = request.json_data
+
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
+
+    nickname = json_data['nickname']
+    if len(nickname) > 50:
+        return process_response(request, ResponseStatus.NICKNAME_LENGTH_TOO_LARGE_ERROR)
+
+    user_info = account_models.User.objects.filter(username=request.session.get('username')).first().info
+    user_info.nickname = nickname
+    user_info.save()
+
+    return process_response(request, ResponseStatus.OK)
+
+
+@Protect
+@RequiredMethod('POST')
+@ratelimit(**settings.RATE_LIMIT_LEVEL_2)
+@LoginRequired
+@RequiredParameters('avatar')
+def change_avatar(request):
+    json_data = request.json_data
+
+    status = ValueErrorStatus.check_value_type(json_data)
+    if status is not None:
+        return process_response(request, status)
+
+    avatar = json_data['avatar']
+    if len(avatar) > 100 or re.search(r'\.\.', avatar) or avatar[:8] != '/' + settings.AVATAR_PATH \
+            or not os.path.exists('.' + avatar):
+        return process_response(request, ResponseStatus.IMAGE_PATH_NOT_FOUND_ERROR)
+
+    user_info = account_models.User.objects.filter(username=request.session.get('username')).first().info
+    user_info.avatar = avatar
+    user_info.save()
+
+    return process_response(request, ResponseStatus.OK)

@@ -74,7 +74,8 @@ def get_all_post(request):
             'content': one.content,
             'create_time': one.create_time.strftime('%Y-%m-%d %H:%M:%S'),
             'address': one.photo.address,
-            'like': one.like
+            'like': one.like,
+            'post_id': one.id
         })
 
         if user:
@@ -108,7 +109,8 @@ def get_hot_post(request):
             'content': one.content,
             'create_time': one.create_time.strftime('%Y-%m-%d %H:%M:%S'),
             'address': one.photo.address,
-            'like': one.like
+            'like': one.like,
+            'post_id': one.id
         })
 
         if user:
@@ -155,7 +157,8 @@ def get_my_post(request):
             'content': one.content,
             'create_time': one.create_time.strftime('%Y-%m-%d %H:%M:%S'),
             'address': one.photo.address,
-            'like': one.like
+            'like': one.like,
+            'post_id': one.id
         })
 
         if user:

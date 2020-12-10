@@ -38,6 +38,8 @@ class ResponseStatus(Enum):
     LONGITUDE_REQUIRED_ERROR = (41012, '缺少经度')
     LATITUDE_REQUIRED_ERROR = (41013, '缺少纬度')
     NUM_REQUIRED_ERROR = (41014, '缺少页号')
+    CONTENT_REQUIRED_ERROR = (41015, '缺少内容')
+    POST_ID_REQUIRED_ERROR = (41016, '缺少动态 ID')
 
     USERNAME_TOO_SHORT_ERROR = (42001, '用户名应不少于 4 位')
     USERNAME_TOO_LONG_ERROR = (42002, '用户名应不多于 20 位')
@@ -52,6 +54,7 @@ class ResponseStatus(Enum):
     IMAGE_SIZE_TOO_LARGE_ERROR = (42011, '图片大小不得超过 5MB')
     IMAGE_EXTENSION_NOT_ALLOWED_ERROR = (42012, '图片仅支持 jpg, png 格式')
     NUM_OUT_OF_RANGE_ERROR = (42013, '页号超出范围')
+    CONTENT_LENGTH_TOO_LARGE_ERROR = (42014, '内容过长')
 
     USERNAME_EXISTED_ERROR = (43001, '用户名已存在')
     EMAIL_EXISTED_ERROR = (43002, '邮箱已存在')
@@ -62,6 +65,8 @@ class ResponseStatus(Enum):
     REPORT_NOT_EXISTED_ERROR = (43007, '报告不存在')
     BIRD_ID_NOT_EXISTED_ERROR = (43008, '鸟类编号不存在')
     PHOTO_EXISTED_ERROR = (43009, '图片已存在')
+    POST_NOT_FOUND_ERROR = (43010, '动态不存在')
+    LIKE_ALREADY_ERROR = (43011, '已点赞')
 
     NOT_LOGIN = (44001, '未登陆')
 
@@ -79,6 +84,8 @@ class ResponseStatus(Enum):
     LONGITUDE_VALUE_ERROR = (45012, '经度类型错误')
     LATITUDE_VALUE_ERROR = (45013, '纬度类型错误')
     NUM_VALUE_ERROR = (45014, '页号类型错误')
+    CONTENT_VALUE_ERROR = (45015, '内容类型错误')
+    POST_ID_VALUE_ERROR = (45016, '动态 ID 类型错误')
 
 
 class RequiredErrorStatus:
@@ -99,7 +106,9 @@ class RequiredErrorStatus:
         'bird_id': ResponseStatus.BIRD_ID_REQUIRED_ERROR,
         'longitude': ResponseStatus.LONGITUDE_REQUIRED_ERROR,
         'latitude': ResponseStatus.LATITUDE_REQUIRED_ERROR,
-        'num': ResponseStatus.NUM_REQUIRED_ERROR
+        'num': ResponseStatus.NUM_REQUIRED_ERROR,
+        'content': ResponseStatus.CONTENT_REQUIRED_ERROR,
+        'post_id': ResponseStatus.POST_ID_REQUIRED_ERROR
     }
 
     @classmethod
@@ -131,7 +140,9 @@ class ValueErrorStatus:
         'bird_id': ResponseStatus.BIRD_ID_VALUE_ERROR,
         'longitude': ResponseStatus.LONGITUDE_VALUE_ERROR,
         'latitude': ResponseStatus.LATITUDE_VALUE_ERROR,
-        'num': ResponseStatus.NUM_VALUE_ERROR
+        'num': ResponseStatus.NUM_VALUE_ERROR,
+        'content': ResponseStatus.CONTENT_VALUE_ERROR,
+        'post_id': ResponseStatus.POST_ID_VALUE_ERROR
     }
 
     __value_type_map = {
@@ -148,7 +159,9 @@ class ValueErrorStatus:
         'bird_id': ValueType.INTEGER,
         'longitude': ValueType.FLOAT,
         'latitude': ValueType.FLOAT,
-        'num': ValueType.INTEGER
+        'num': ValueType.INTEGER,
+        'content': ValueType.STRING,
+        'post': ValueType.INTEGER
     }
 
     @classmethod

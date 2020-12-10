@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     # my apps
     'apps.account',
     'apps.prediction',
-    'apps.gallery'
+    'apps.gallery',
+    'apps.post'
 ]
 
 MIDDLEWARE = [
@@ -200,6 +201,7 @@ IMAGE_USAGE = {
 }
 
 PHOTOS_PER_PAGE = 12
+POST_PER_PAGE = 4
 
 # Verify Code Email Message
 

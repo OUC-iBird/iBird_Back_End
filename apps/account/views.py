@@ -125,7 +125,7 @@ def get_status(request):
             'login': True,
             'username': user.username,
             'nickname': user.info.nickname,
-            'avatar': user.info.avatar.url,
+            'avatar': '/' + user.info.avatar.url,
         }
 
         return process_response(request, ResponseStatus.OK)

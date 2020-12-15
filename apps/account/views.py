@@ -156,7 +156,7 @@ def change_password(request):
 
     # 用户 user 存在性验证
     username = json_data['username']
-    user = account_models.User.objects.filter(username=username).first()
+    user = account_models.User.objects.filter(Q(username=username) | Q(userinfo__email=username)).first()
     if not user:
         return process_response(request, ResponseStatus.USERNAME_NOT_EXISTED_ERROR)
 
@@ -172,6 +172,7 @@ def change_password(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username')
 def send_password_verify_code(request):
@@ -183,7 +184,7 @@ def send_password_verify_code(request):
 
     # 用户 user 存在性验证
     username = json_data['username']
-    user = account_models.User.objects.filter(username=username).first()
+    user = account_models.User.objects.filter(Q(username=username) | Q(userinfo__email=username)).first()
     if not user:
         return process_response(request, ResponseStatus.USERNAME_NOT_EXISTED_ERROR)
 
@@ -202,6 +203,7 @@ def send_password_verify_code(request):
     return process_response(request, ResponseStatus.OK)
 
 
+@Protect
 @ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username', 'new_password', 'verify_code')
 def change_forget_password(request):
@@ -213,7 +215,7 @@ def change_forget_password(request):
 
     # 用户 user 存在性验证
     username = json_data['username']
-    user = account_models.User.objects.filter(username=username).first()
+    user = account_models.User.objects.filter(Q(username=username) | Q(userinfo__email=username)).first()
     if not user:
         return process_response(request, ResponseStatus.USERNAME_NOT_EXISTED_ERROR)
 

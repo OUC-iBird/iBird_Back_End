@@ -23,7 +23,8 @@ urlpatterns = [
     path('logout', views.logout),
     path('status', views.get_status),
     path('change_password', views.change_password),
-    path('forget_password', views.forget_password),
     path('change_nickname', views.change_nickname),
-    path('change_avatar', views.change_avatar)
+    path('change_avatar', views.change_avatar),
+    path('send_forget_password_email', views.send_password_verify_code),
+    path('change_forget_password', views.change_forget_password)
 ]

@@ -3,8 +3,8 @@ import os
 
 from django.contrib.auth.hashers import make_password, check_password
 from django.db.models import Q
-from django.core.cache import cache
 from ratelimit.decorators import ratelimit
+from django_redis import get_redis_connection
 
 from iBird import settings
 from apps.utils.decorator import RequiredMethod, RequiredParameters, Protect, LoginRequired
@@ -173,6 +173,7 @@ def change_password(request):
 
 
 @Protect
+@RequiredMethod('POST')
 @ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username')
 def send_password_verify_code(request):
@@ -198,12 +199,14 @@ def send_password_verify_code(request):
     send(email, message)
 
     # 将验证码存入缓存 10 min 过期
+    cache = get_redis_connection()
     cache.set('verify_code_' + email, verify_code, 10 * settings.MINUTE)
 
     return process_response(request, ResponseStatus.OK)
 
 
 @Protect
+@RequiredMethod('POST')
 @ratelimit(**settings.RATE_LIMIT_LEVEL_2)
 @RequiredParameters('username', 'new_password', 'verify_code')
 def change_forget_password(request):
@@ -227,21 +230,18 @@ def change_forget_password(request):
 
     # 验证码匹配
     verify_code = json_data['verify_code']
+
+    cache = get_redis_connection()
     cached_code = cache.get('verify_code_' + user.info.email)
     if verify_code != cached_code:
         return process_response(request, ResponseStatus.VERIFY_CODE_NOT_MATCH_ERROR)
+    cache.delete('verify_code_' + user.info.email)
 
     # 修改密码 password
     user.password = make_password(new_password)
     user.save()
 
     return process_response(request, ResponseStatus.OK)
-
-
-@Protect
-@RequiredMethod(['POST', 'PATCH'])
-def forget_password(request):
-    return {'POST': send_password_verify_code, 'PATCH': change_forget_password}[request.method](request)
 
 
 @Protect

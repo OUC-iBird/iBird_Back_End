@@ -208,6 +208,7 @@ POST_PER_PAGE = 4
 VERIFY_CODE_MAIL_MESSAGE = """
 以下是你的验证码:
 {code}
+
 {username}，你好！
 我们收到了来自您的 iBird 账号进行验证的安全请求。请使用上面的验证码进行验证。
 请注意：该验证码将于 10 分钟后过期，请尽快验证。

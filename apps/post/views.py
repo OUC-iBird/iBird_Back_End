@@ -72,6 +72,7 @@ def get_all_post(request):
             'username': one.user.info.nickname if one.user.info.nickname else one.user.username,
             'avatar': one.user.info.avatar.url,
             'content': one.content,
+            'path': one.photo.path,
             'create_time': one.create_time.strftime('%Y-%m-%d %H:%M:%S'),
             'address': one.photo.address,
             'like': one.like,
@@ -107,6 +108,7 @@ def get_hot_post(request):
             'username': one.user.info.nickname if one.user.info.nickname else one.user.username,
             'avatar': one.user.info.avatar.url,
             'content': one.content,
+            'path': one.photo.path,
             'create_time': one.create_time.strftime('%Y-%m-%d %H:%M:%S'),
             'address': one.photo.address,
             'like': one.like,
@@ -155,6 +157,7 @@ def get_my_post(request):
             'username': one.user.info.nickname if one.user.info.nickname else one.user.username,
             'avatar': one.user.info.avatar.url,
             'content': one.content,
+            'path': one.photo.path,
             'create_time': one.create_time.strftime('%Y-%m-%d %H:%M:%S'),
             'address': one.photo.address,
             'like': one.like,
@@ -214,6 +217,7 @@ def get_points(request):
     for one in posts:
         point.append({
             'content': one.content,
+            'path': one.photo.path,
             'address': one.photo.address,
             'longitude': one.photo.longitude,
             'latitude': one.photo.latitude

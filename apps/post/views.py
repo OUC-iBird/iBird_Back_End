@@ -96,7 +96,7 @@ def get_all_post(request):
 @RequiredMethod('GET')
 @ratelimit(**settings.RATE_LIMIT_LEVEL_3)
 def get_hot_post(request):
-    posts = post_models.Post.objects.all().order_by('like', '-id')[:10]
+    posts = post_models.Post.objects.all().order_by('-like', '-id')[:10]
 
     user = request.session.get('username', None)
     if user is not None:

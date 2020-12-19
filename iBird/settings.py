@@ -144,11 +144,12 @@ STATIC_URL = '/static/'
 
 # Email Configuration
 
-EMAIL_HOST = 'smtp.163.com'
-EMAIL_PORT = 465
+EMAIL_HOST = config.get('EMAIL_HOST')
+EMAIL_PORT = config.get('EMAIL_PORT')
 EMAIL_HOST_USER = config.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config.get('EMAIL_HOST_PASSWORD')
-EMAIL_USE_SSL = True
+EMAIL_USE_SSL = config.get('EMAIL_USE_SSL')
+EMAIL_USE_TLS = config.get('EMAIL_USE_TLS')
 EMAIL_FROM = EMAIL_HOST_USER
 
 

@@ -21,7 +21,7 @@ class UserInfo(models.Model):
     user = models.ForeignKey('User', on_delete=models.PROTECT, verbose_name='用户')
     nickname = models.CharField(max_length=50, verbose_name='昵称', null=False, blank=True, default='')
     email = models.EmailField(verbose_name='邮箱', unique=True, null=False, blank=False)
-    avatar = models.ImageField(upload_to='avatar', verbose_name='头像', default='avatar/default.jpg')
+    avatar = models.ImageField(upload_to='avatar', verbose_name='头像', default='/avatar/default.jpg')
 
     class Meta:
         verbose_name = '用户信息'
